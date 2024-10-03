@@ -1,4 +1,4 @@
-<html><head><base href="blob:https://party.websim.ai/6cb79a74-a5ab-4ed9-9659-7693da50e2dc">
+<html><head><base href="https://websimcreationengine.com/maquina-x-stone/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compare Stone</title>
@@ -520,86 +520,4 @@
             const custoAtualCredito712 = vendaCredito712 * (atualCredito712 / 100);
             const custoAtualPix = vendaPix * (atualPix / 100);
             const custoAtualAluguel = parseInputValue('atual-aluguel') * parseInputValue('atual-quantidade');
-            const vendaTotal = vendaDebito + vendaCreditoVista + vendaCredito26 + vendaCredito712 + vendaPix + vendaOutrosPercentual;
-            const custoAtualOutrosPercentual = vendaTotal * (atualOutrosPercentual / 100);
-            const custoAtualOutrosReal = parseInputValue('atual-outros-real');
-
-            const custoTotalAtual = custoAtualDebito + custoAtualCreditoVista + custoAtualCredito26 + custoAtualCredito712 + custoAtualPix + custoAtualAluguel + custoAtualOutrosPercentual + custoAtualOutrosReal;
-
-            const ipvCheckbox = document.getElementById('ipv-checkbox');
-            const custoStoneAluguel = ipvCheckbox.checked ? 0 : parseInputValue('stone-aluguel') * parseInputValue('stone-quantidade');
-
-            const custoStoneDebito = vendaDebito * (stoneDebito / 100);
-            const custoStoneCreditoVista = vendaCreditoVista * (stoneCreditoVista / 100);
-            const custoStoneCredito26 = vendaCredito26 * (stoneCredito26 / 100);
-            const custoStoneCredito712 = vendaCredito712 * (stoneCredito712 / 100);
-            const custoStonePix = vendaPix * (stonePix / 100);
-            const custoStoneOutrosPercentual = vendaTotal * (stoneOutrosPercentual / 100);
-            const custoStoneOutrosReal = parseInputValue('stone-outros-real');
-            const raioXValor = document.getElementById('raio-x-checkbox').checked ? parseInputValue('raio-x-valor') : 0;
-
-            const custoTotalStone = custoStoneDebito + custoStoneCreditoVista + custoStoneCredito26 + custoStoneCredito712 + custoStonePix + custoStoneAluguel + custoStoneOutrosPercentual + custoStoneOutrosReal - raioXValor;
-
-            const diferenca = custoTotalAtual - custoTotalStone;
-
-            let resultado = "<h3>Resultado da comparação:</h3>";
-            resultado += "<p>Custo total com a máquina atual: " + formatToBrazilianCurrency(custoTotalAtual) + "</p>";
-            resultado += "<p>Custo total com a oferta Stone: " + formatToBrazilianCurrency(custoTotalStone) + "</p>";
-
-            let resultadoDetalhado = "<h3>Detalhamento por modalidade:</h3>";
-            const fieldsWithValues = {
-                debito: vendaDebito > 0,
-                creditoVista: vendaCreditoVista > 0,
-                credito26: vendaCredito26 > 0,
-                credito712: vendaCredito712 > 0,
-                pix: vendaPix > 0,
-                aluguel: parseInputValue('atual-aluguel') > 0 || parseInputValue('stone-aluguel') > 0,
-                outrosReal: parseInputValue('atual-outros-real') > 0 || parseInputValue('stone-outros-real') > 0,
-                outrosPercentual: parseInputValue('atual-outros-percentual') > 0 || parseInputValue('stone-outros-percentual') > 0
-            };
-
-            if (fieldsWithValues.debito) {
-                const rateDiff = calculatePercentageDifference(atualDebito, stoneDebito);
-                resultadoDetalhado += `<p>Débito: ${formatDifference(custoAtualDebito - custoStoneDebito)} (${rateDiff.toFixed(2)}%)</p>`;
-            }
-            if (fieldsWithValues.creditoVista) {
-                const rateDiff = calculatePercentageDifference(atualCreditoVista, stoneCreditoVista);
-                resultadoDetalhado += `<p>Crédito à Vista: ${formatDifference(custoAtualCreditoVista - custoStoneCreditoVista)} (${rateDiff.toFixed(2)}%)</p>`;
-            }
-            if (fieldsWithValues.credito26) {
-                const rateDiff = calculatePercentageDifference(atualCredito26, stoneCredito26);
-                resultadoDetalhado += `<p>Crédito 2x a 6x: ${formatDifference(custoAtualCredito26 - custoStoneCredito26)} (${rateDiff.toFixed(2)}%)</p>`;
-            }
-            if (fieldsWithValues.credito712) {
-                const rateDiff = calculatePercentageDifference(atualCredito712, stoneCredito712);
-                resultadoDetalhado += `<p>Crédito 7x a 12x: ${formatDifference(custoAtualCredito712 - custoStoneCredito712)} (${rateDiff.toFixed(2)}%)</p>`;
-            }
-            if (fieldsWithValues.pix) {
-                const rateDiff = calculatePercentageDifference(atualPix, stonePix);
-                resultadoDetalhado += `<p>Pix: ${formatDifference(custoAtualPix - custoStonePix)} (${rateDiff.toFixed(2)}%)</p>`;
-            }
-            if (fieldsWithValues.aluguel) {
-                resultadoDetalhado += `<p>Aluguel: ${formatDifference(custoAtualAluguel - custoStoneAluguel)}</p>`;
-            }
-            if (fieldsWithValues.outrosReal) {
-                const atualOutrosRealLabel = getCustomLabel('atual', 'real');
-                const stoneOutrosRealLabel = getCustomLabel('stone', 'real');
-                const labelText = atualOutrosRealLabel === stoneOutrosRealLabel ? atualOutrosRealLabel : `${atualOutrosRealLabel} / ${stoneOutrosRealLabel}`;
-                resultadoDetalhado += `<p>${labelText}: ${formatDifference(custoAtualOutrosReal - custoStoneOutrosReal)}</p>`;
-            }
-            if (fieldsWithValues.outrosPercentual) {
-                const atualOutrosPercentualLabel = getCustomLabel('atual', 'percentual');
-                const stoneOutrosPercentualLabel = getCustomLabel('stone', 'percentual');
-                const labelText = atualOutrosPercentualLabel === stoneOutrosPercentualLabel ? atualOutrosPercentualLabel : `${atualOutrosPercentualLabel} / ${stoneOutrosPercentualLabel}`;
-                const rateDiff = calculatePercentageDifference(atualOutrosPercentual, stoneOutrosPercentual);
-                resultadoDetalhado += `<p>${labelText}: ${formatDifference(custoAtualOutrosPercentual - custoStoneOutrosPercentual)} (${rateDiff.toFixed(2)}%)</p>`;
-            }
-
-            if (raioXValor > 0) {
-                resultadoDetalhado += "<p>Economia do Raio-X: " + formatDifference(raioXValor) + "</p>";
-            }
-
-            resultadoDetalhado += "<h4>Conclusão:</h4>";
-            if (diferenca > 0) {
-                const economiaAnual = diferenca * 12;
-                resultadoDetalhado += "<p class='positivo'>A oferta Stone é vantajosa. Você economizaria " + formatToBrazilianCurrency(diferenca) + " por m
+            const vendaTotal = vendaDebito + vendaCredi
