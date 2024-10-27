@@ -333,7 +333,7 @@ body {
     width: 40px;
     height: 40px;
     border: none;
-    border-radius: 8px;
+    border-radius: 8px; /* Changed from 20px to 8px to match other buttons */
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -418,14 +418,14 @@ body {
 }
 
 .result-card {
-    flex: 0 0 calc(100% - 2rem);
+    flex: 0 0 calc(100% - 2rem); /* Change from 100% to calc(100% - 2rem) to account for padding */
     scroll-snap-align: start;
     background-color: var(--stone-green);
     color: white;
     padding: 1rem;
     border-radius: 8px;
-    min-width: 260px;
-    box-sizing: border-box;
+    min-width: 260px; /* Reduce from 280px to 260px */
+    box-sizing: border-box; /* Add box-sizing to include padding in width calculation */
 }
 
 .results-section {
@@ -468,7 +468,7 @@ body {
     font-size: 2rem;
 }
 
-.savings-comparison {
+.success-comparison {
     margin-top: 2rem;
     padding: 1.5rem;
     background-color: var(--stone-green);
@@ -481,7 +481,7 @@ body {
     animation: pulse 2s infinite;
 }
 
-.savings-comparison .material-icons {
+.success-comparison .material-icons {
     font-size: 2rem;
 }
 
@@ -936,7 +936,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         resetButton.classList.add('visible');
         resultsCard.classList.add('visible');
-        setupResultsCard(); 
+        setupResultsCard(); // Add the setupResultsCard function call
         compararOfertas();
         
         const headerHeight = 80; 
@@ -986,6 +986,7 @@ document.addEventListener('DOMContentLoaded', function() {
             resultsCard.classList.remove('visible');
             resetButton.classList.remove('visible');
             
+            // Add this line to remove any "Resultado Total" cards
             document.querySelectorAll('.card').forEach(card => {
                 if (card.querySelector('.card-title')?.textContent === 'Resultado Total') {
                     card.remove();
@@ -1009,18 +1010,22 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupResultsCard() {
         const resultsCard = document.querySelector('.card.results-card');
         
+        // Remove existing toggle button if any
         const existingBtn = resultsCard.querySelector('.toggle-results-btn');
         if (existingBtn) existingBtn.remove();
         
+        // Create toggle button
         const toggleBtn = document.createElement('button');
         toggleBtn.className = 'toggle-results-btn';
         toggleBtn.innerHTML = '<span class="material-icons">expand_more</span>';
         resultsCard.appendChild(toggleBtn);
         
+        // Add click handler
         toggleBtn.addEventListener('click', () => {
             resultsCard.classList.toggle('minimized');
         });
         
+        // Start minimized
         resultsCard.classList.add('minimized');
     }
 
@@ -1123,6 +1128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     Por favor, insira algum valor para que seja feita a comparação.
                 </div>
             `;
+            // Remove minimized class when showing validation message
             document.querySelector('.card.results-card').classList.remove('minimized');
             return;
         }
@@ -1411,6 +1417,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     resultadoAnualTotal = resultadoAnualTotal + economiaAno1 - ofertaStoneAluguel;
 
+                    // Only show additional text if ofertaStoneAluguel is not empty and not zero
                     const showAdesaoText = ofertaStoneAluguel > 0;
 
                     resultadoAnualHTML = `
@@ -1493,24 +1500,18 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </span>
                             </div>
                         </div>
-                        ${resultadoMensalTotal < 0 ? `
+                        ${(resultadoMensalTotal < 0 ? `
                             <div class="result-card">
                                 <div style="font-weight: bold;">
                                     Investimento Diário: R$ ${formatCurrency(Math.abs(resultadoMensalTotal) / 30)}
                                 </div>
                             </div>
-                        ` : ''}
+                        ` : '')}
                         ${resultadoAnualHTML ? `
                             <div class="result-card">
                                 <div style="font-weight: bold;">
                                     ${resultadoAnualHTML.replace(/<div[^>]*>|<\/div>|<span[^>]*>|<\/span>/g, '')}
                                 </div>
-                            </div>
-                        ` : ''}
-                        ${resultadoMensalTotal > 0 ? `
-                            <div class="savings-comparison">
-                                <span class="material-icons">stars</span>
-                                <div>Parabéns! Esta é a melhor oferta Stone para o seu negócio! Aproveite os benefícios de uma parceria que valoriza o seu crescimento!</div>
                             </div>
                         ` : ''}
                     </div>
@@ -1521,12 +1522,14 @@ document.addEventListener('DOMContentLoaded', function() {
             resultsCard.parentNode.insertBefore(totalResultsCard, resultsCard);
 
             if (resultadoMensalTotal < 0) {
+                // Get all TPV values
                 const tpvDebito = parseFloat(document.querySelector('input[name="tpv_debito"]').value) || 0;
                 const tpvCredito = parseFloat(document.querySelector('input[name="tpv_credito"]').value) || 0;
                 const tpvPix = parseFloat(document.querySelector('input[name="tpv_pix"]').value) || 0;
                 const tpvCredito2x6x = parseFloat(document.querySelector('input[name="tpv_credito_2x_6x"]').value) || 0;
                 const tpvCredito7x12x = parseFloat(document.querySelector('input[name="tpv_credito_7x_12x"]').value) || 0;
 
+                // Calculate total TPV
                 const totalTpv = tpvDebito + tpvCredito + tpvPix + tpvCredito2x6x + tpvCredito7x12x;
 
                 if (totalTpv > 0) {
@@ -1540,6 +1543,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     `);
                 }
 
+                // Add daily comparison
                 const dailyValue = Math.abs(resultadoMensalTotal) / 30;
                 const comparison = getDailyComparisonMessage(dailyValue);
                 
@@ -1547,6 +1551,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="daily-comparison">
                         <span class="material-icons">${comparison.icon}</span>
                         <div>${comparison.text}</div>
+                    </div>
+                `);
+            } else {
+                // Add success message for positive results
+                totalResultsCard.querySelector('.results-section').insertAdjacentHTML('beforeend', `
+                    <div class="success-comparison">
+                        <span class="material-icons">star</span>
+                        <div>Parabéns! Você encontrou a melhor oferta Stone! Esta proposta irá gerar economia para o seu negócio e impulsionar seus resultados!</div>
                     </div>
                 `);
             }
