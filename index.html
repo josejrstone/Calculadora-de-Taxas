@@ -1,9 +1,9 @@
-<html><head><base href="https://websim.financeiro.app/">
+<html><head><base href="https://stone.financeiro.app/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Negociação Stone</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
 <style>
 :root {
     --stone-green: #00B563;
@@ -13,7 +13,7 @@
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 100px 0 120px 0;
     background-color: #f5f5f5;
     min-height: 100vh;
 }
@@ -24,6 +24,27 @@ body {
     padding: 2rem;
     text-align: center;
     margin-bottom: 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.header h1 {
+    margin: 0;
+    transition: all 0.3s ease;
+    font-size: 2rem;
+}
+
+.header.scrolled {
+    padding: 0.5rem;
+}
+
+.header.scrolled h1 {
+    font-size: 1.2rem;
 }
 
 .container {
@@ -47,6 +68,7 @@ body {
     color: var(--stone-dark);
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
+    padding-right: 40px;
 }
 
 .tab-header {
@@ -238,8 +260,8 @@ body {
 
 .floating-button {
     position: fixed;
-    bottom: 2rem;
-    left: 50%; 
+    bottom: 3rem;
+    left: 50%;
     transform: translateX(-50%);
     background-color: var(--stone-green);
     color: white;
@@ -256,18 +278,18 @@ body {
 
 .floating-button:hover {
     background-color: #009952;
-    transform: translateX(-50%) translateY(-2px); 
+    transform: translateX(-50%) translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 181, 99, 0.3);
 }
 
 .reset-button {
     position: fixed;
-    bottom: 2rem;
+    bottom: 3rem;
     right: 2rem;
     background-color: #ff4444;
     color: white;
     width: 48px;
-    height: 48px;
+    height: 52px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
@@ -286,6 +308,71 @@ body {
 
 .reset-button.visible {
     display: flex;
+}
+
+.card.results-card {
+    display: none;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    padding-right: 40px;
+}
+
+.card.results-card.minimized {
+    max-height: 80px;
+    overflow: hidden;
+}
+
+.toggle-results-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 10px;
+    transform: none;
+    background-color: var(--stone-green);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px; /* Changed from 20px to 8px to match other buttons */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.toggle-results-btn:hover {
+    background-color: #009952;
+}
+
+.toggle-results-btn .material-icons {
+    transition: transform 0.3s ease;
+}
+
+.card.results-card.minimized .toggle-results-btn .material-icons {
+    transform: rotate(180deg);
+}
+
+.card.results-card.visible {
+    display: block;
+    border: 2px solid var(--stone-green);
+    animation: highlight-results 0.5s ease;
+}
+
+@keyframes highlight-results {
+    0% {
+        border-color: transparent;
+        transform: scale(1);
+    }
+    50% {
+        border-color: var(--stone-green);
+        transform: scale(1.01);
+    }
+    100% {
+        border-color: var(--stone-green);
+        transform: scale(1);
+    }
 }
 
 .result-item {
@@ -320,6 +407,96 @@ body {
     color: #856404;
 }
 
+.result-cards-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.result-card {
+    flex: 0 0 calc(100% - 2rem); /* Change from 100% to calc(100% - 2rem) to account for padding */
+    scroll-snap-align: start;
+    background-color: var(--stone-green);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    min-width: 260px; /* Reduce from 280px to 260px */
+    box-sizing: border-box; /* Add box-sizing to include padding in width calculation */
+}
+
+.results-section {
+    border-top: 2px solid #eee;
+    margin-top: 2rem;
+    padding-top: 1rem;
+}
+
+.daily-comparison {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: var(--stone-green);
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    animation: pulse 2s infinite;
+}
+
+.daily-comparison .material-icons {
+    font-size: 2rem;
+}
+
+.tpv-comparison {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: var(--stone-green);
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    animation: pulse 2s infinite;
+}
+
+.tpv-comparison .material-icons {
+    font-size: 2rem;
+}
+
+.success-message {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: var(--stone-green);
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    animation: pulse 2s infinite;
+}
+
+.success-message .material-icons {
+    font-size: 2rem;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 0 0.5rem;
@@ -345,16 +522,16 @@ body {
         <h2 class="card-title">Máquina Atual</h2>
         <div class="tab-header">
             <div style="display: flex; align-items: center;">
-                <button class="tab active" data-tab="visa-master">Visa/Master</button>
+                <button class="tab active" data-tab="visa-master">Dados 1</button>
                 <button class="change-tab-btn">
                     <span class="material-icons">sync_alt</span>
                 </button>
             </div>
             <div class="tab-dropdown">
-                <button data-tab="visa-master">Visa/Master</button>
-                <button data-tab="elo">Elo</button>
-                <button data-tab="hiper">Hiper</button>
-                <button data-tab="amex">Amex</button>
+                <button data-tab="visa-master">Dados 1</button>
+                <button data-tab="elo">Dados 2</button>
+                <button data-tab="hiper">Dados 3</button>
+                <button data-tab="amex">Dados 4</button>
             </div>
         </div>
 
@@ -535,11 +712,14 @@ body {
         </div>
     </div>
 
-    <div class="card">
-        <h2 class="card-title">Resultado</h2>
+    <div class="card results-card">
+        <h2 class="card-title">Resultado Detalhado</h2>
         <div id="resultado-content">
             <!-- Comparison results will be inserted here -->
         </div>
+        <button class="toggle-results-btn">
+            <span class="material-icons">expand_more</span>
+        </button>
     </div>
 </div>
 
@@ -550,601 +730,15 @@ body {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    function formatNumberInput(input) {
-        input.addEventListener('input', function(e) {
-            if (this.name === 'quant_maquinas' || this.name === 'parcelas') return;
-            let value = this.value.replace(/\D/g, '');
-            if (value.length > 2) {
-                value = value.slice(0, -2) + '.' + value.slice(-2);
-            }
-            this.value = value;
-        });
-    }
-
-    function createParcelasFields(container) {
-        container.innerHTML = '';
-        const isTpvCard = container.closest('.card').querySelector('.card-title').textContent === 'TPV Mensal';
-        
-        for(let i = 1; i <= 18; i++) {
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                <label>${i}x</label>
-                <input type="number" step="0.01" name="${isTpvCard ? 'tpv_' : ''}parcela_${i}x" 
-                       placeholder="${isTpvCard ? 'R$' : '%'}" inputmode="numeric">
-            `;
-            container.appendChild(div);
-        }
-        container.querySelectorAll('input[type="number"]').forEach(input => {
-            formatNumberInput(input);
-        });
-    }
-
-    function updateLabelsBasedOnCheckbox(container, isAdesaoChecked) {
-        const aluguelLabel = container.querySelector('label[for="aluguel"]') || 
-                            container.querySelector('.form-group:nth-child(5) label');
-        const quantLabel = container.querySelector('label[for="quant_maquinas"]') ||
-                          container.querySelector('.form-group:nth-child(6) label');
-        const quantInput = container.querySelector('input[name="quant_maquinas"]');
-        
-        if (isAdesaoChecked) {
-            aluguelLabel.textContent = 'Adesão';
-            quantLabel.textContent = 'Parcelas';
-            quantInput.placeholder = '12x';
+    const header = document.querySelector('.header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
         } else {
-            aluguelLabel.textContent = 'Aluguel';
-            quantLabel.textContent = 'Quant. Máquinas';
-            quantInput.placeholder = 'un';
-        }
-    }
-
-    const visaMasterContent = document.getElementById('visa-master').innerHTML;
-    ['elo', 'hiper', 'amex'].forEach(tabId => {
-        document.getElementById(tabId).innerHTML = visaMasterContent;
-    });
-
-    const oferta1Content = document.getElementById('oferta-1').innerHTML;
-    ['oferta-2', 'oferta-3'].forEach(tabId => {
-        document.getElementById(tabId).innerHTML = oferta1Content;
-    });
-
-    document.querySelectorAll('.parcelas-grid').forEach(grid => {
-        createParcelasFields(grid);
-    });
-
-    document.querySelectorAll('.change-tab-btn').forEach(changeTabBtn => {
-        const tabDropdown = changeTabBtn.closest('.tab-header').querySelector('.tab-dropdown');
-        const activeTab = changeTabBtn.closest('.tab-header').querySelector('.tab');
-
-        changeTabBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.querySelectorAll('.tab-dropdown').forEach(dropdown => {
-                if (dropdown !== tabDropdown) {
-                    dropdown.classList.remove('show');
-                }
-            });
-            
-            tabDropdown.classList.toggle('show');
-            
-            const btnRect = changeTabBtn.getBoundingClientRect();
-            tabDropdown.style.top = `${btnRect.bottom + window.scrollY + 5}px`;
-            tabDropdown.style.left = `${btnRect.left}px`;
-        });
-
-        tabDropdown.querySelectorAll('button').forEach(button => {
-            button.addEventListener('click', () => {
-                const tabId = button.getAttribute('data-tab');
-                
-                activeTab.textContent = button.textContent;
-                activeTab.setAttribute('data-tab', tabId);
-                
-                const card = tabDropdown.closest('.card');
-                card.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                card.querySelector(`#${tabId}`).classList.add('active');
-                
-                tabDropdown.classList.remove('show');
-            });
-        });
-    });
-
-    document.addEventListener('click', (e) => {
-        document.querySelectorAll('.tab-dropdown').forEach(dropdown => {
-            if (!dropdown.contains(e.target) && !e.target.closest('.change-tab-btn')) {
-                dropdown.classList.remove('show');
-            }
-        });
-    });
-
-    document.querySelectorAll('.toggle-parcelas').forEach(button => {
-        button.addEventListener('click', function() {
-            document.querySelectorAll('.parcelas-grid').forEach(grid => {
-                grid.classList.toggle('visible');
-            });
-            
-            if(this.textContent.includes('Mostrar')) {
-                this.textContent = 'Ocultar Taxas por Parcelas';
-            } else {
-                this.textContent = 'Mostrar Taxas por Parcelas';
-            }
-        });
-    });
-
-    document.querySelectorAll('input[type="number"]').forEach(input => {
-        formatNumberInput(input);
-    });
-
-    document.querySelectorAll('.editable-label').forEach(label => {
-        let clickTimeout;
-        let clicks = 0;
-        
-        label.addEventListener('click', function() {
-            clicks++;
-            
-            if (clicks === 1) {
-                clickTimeout = setTimeout(() => {
-                    clicks = 0;
-                }, 300);
-            } else if (clicks === 2) {
-                clearTimeout(clickTimeout);
-                clicks = 0;
-                
-                const labelInput = this.nextElementSibling;
-                labelInput.classList.add('editing');
-                labelInput.focus();
-                
-                this.style.display = 'none';
-            }
-        });
-        
-        const labelInput = label.nextElementSibling;
-        labelInput.addEventListener('blur', function() {
-            this.classList.remove('editing');
-            const newName = this.value.trim() || this.closest('.form-group').querySelector('.editable-label').dataset.defaultName;
-            this.closest('.form-group').querySelector('.editable-label').textContent = newName;
-            this.closest('.form-group').querySelector('.editable-label').style.display = 'block';
-        });
-        
-        labelInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                this.blur();
-            }
-        });
-    });
-
-    document.querySelectorAll('input[name="adesao"], input[name="ipv"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                const otherCheckboxName = this.name === 'adesao' ? 'ipv' : 'adesao';
-                const otherCheckbox = this.closest('.checkbox-group').querySelector(`input[name="${otherCheckboxName}"]`);
-                otherCheckbox.checked = false;
-            }
-            
-            const ofertaStoneCard = this.closest('.card');
-            const isAdesaoChecked = this.name === 'adesao' && this.checked;
-            
-            ofertaStoneCard.querySelectorAll('.tab-content').forEach(tabContent => {
-                updateLabelsBasedOnCheckbox(tabContent, isAdesaoChecked);
-            });
-        });
-    });
-
-    const compararButton = document.querySelector('.floating-button');
-    const resetButton = document.querySelector('.reset-button');
-
-    compararButton.addEventListener('click', () => {
-        resetButton.classList.add('visible');
-        compararOfertas();
-    });
-
-    resetButton.addEventListener('click', () => {
-        if (confirm('Tem certeza que deseja restaurar a página ao estado original?')) {
-            document.querySelectorAll('input').forEach(input => {
-                if (input.type === 'checkbox') {
-                    input.checked = false;
-                } else {
-                    input.value = '';
-                }
-            });
-            
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.getAttribute('data-tab').includes('visa-master') || 
-                    tab.getAttribute('data-tab').includes('oferta-1')) {
-                    tab.classList.add('active');
-                }
-            });
-            
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-                if (content.id.includes('visa-master') || 
-                    content.id.includes('oferta-1')) {
-                    content.classList.add('active');
-                }
-            });
-            
-            document.querySelectorAll('.parcelas-grid').forEach(grid => {
-                grid.classList.remove('visible');
-            });
-            
-            document.querySelectorAll('.toggle-parcelas').forEach(button => {
-                button.textContent = 'Mostrar Taxas por Parcelas';
-            });
-            
-            document.getElementById('resultado-content').innerHTML = '';
-            resetButton.classList.remove('visible');
+            header.classList.remove('scrolled');
         }
     });
 
-    function compararOfertas() {
-        const resultadoContent = document.getElementById('resultado-content');
-        resultadoContent.innerHTML = '';
-
-        const isRaioXActive = document.querySelector('input[name="raio_x"]').checked;
-        let resultHTML = '';
-
-        if (isRaioXActive) {
-            const economiaRaioX = 59.90;
-            resultHTML = `
-                <div class="result-item">
-                    <div class="result-title">Raio-X:</div>
-                    <div class="result-detail economia">
-                        Economia: R$ ${economiaRaioX.toFixed(2)}
-                    </div>
-                    <div class="result-detail" style="font-style: italic; margin-top: 10px;">
-                        Nota: O Raio-X é um serviço cobrado mensalmente que não será cobrado na oferta Stone.
-                    </div>
-                </div>
-            `;
-        }
-
-        const maquinaAtualTab = document.querySelector('.card:first-of-type .tab.active').getAttribute('data-tab');
-        const ofertaStoneTab = document.querySelector('.card:nth-of-type(3) .tab.active').getAttribute('data-tab');
-
-        const maquinaAtualDebito = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="debito"]`).value) || 0;
-        const ofertaStoneDebito = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="debito"]`).value) || 0;
-        const tpvDebito = parseFloat(document.querySelector('input[name="tpv_debito"]').value) || 0;
-        
-        const maquinaAtualCredito = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="credito"]`).value) || 0;
-        const maquinaAtualAntecipacao = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="antecipacao"]`).value) || 0;
-        const ofertaStoneCredito = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="credito"]`).value) || 0;
-        const ofertaStoneAntecipacao = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="antecipacao"]`).value) || 0;
-        const tpvCredito = parseFloat(document.querySelector('input[name="tpv_credito"]').value) || 0;
-
-        const maquinaAtualPix = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="pix"]`).value) || 0;
-        const ofertaStonePix = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="pix"]`).value) || 0;
-        const tpvPix = parseFloat(document.querySelector('input[name="tpv_pix"]').value) || 0;
-
-        const maquinaAtualCredito2x6x = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="credito_2x_6x"]`).value) || 0;
-        const ofertaStoneCredito2x6x = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="credito_2x_6x"]`).value) || 0;
-        const tpvCredito2x6x = parseFloat(document.querySelector('input[name="tpv_credito_2x_6x"]').value) || 0;
-
-        const maquinaAtualCredito7x12x = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="credito_7x_12x"]`).value) || 0;
-        const ofertaStoneCredito7x12x = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="credito_7x_12x"]`).value) || 0;
-        const tpvCredito7x12x = parseFloat(document.querySelector('input[name="tpv_credito_7x_12x"]').value) || 0;
-
-        const maquinaAtualAluguel = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="aluguel"]`).value) || 0;
-        const maquinaAtualQuant = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="quant_maquinas"]`).value) || 1;
-        const ofertaStoneAluguel = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="aluguel"]`).value) || 0;
-        const ofertaStoneQuant = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="quant_maquinas"]`).value) || 1;
-        
-        const isIpvActive = document.querySelector('input[name="ipv"]').checked;
-
-        const totalMaquinaAtualAluguel = maquinaAtualAluguel * maquinaAtualQuant;
-        const totalOfertaStoneAluguel = isIpvActive ? 0 : (ofertaStoneAluguel * ofertaStoneQuant);
-
-        const maquinaAtualOutros1 = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="outros_1"]`).value) || 0;
-        const ofertaStoneOutros1 = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="outros_1"]`).value) || 0;
-
-        const maquinaAtualOutros2 = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="outros_2"]`).value) || 0;
-        const ofertaStoneOutros2 = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="outros_2"]`).value) || 0;
-
-        if (!(maquinaAtualDebito || ofertaStoneDebito || 
-              maquinaAtualCredito || ofertaStoneCredito || 
-              maquinaAtualCredito2x6x || ofertaStoneCredito2x6x ||
-              maquinaAtualCredito7x12x || ofertaStoneCredito7x12x ||
-              maquinaAtualPix || ofertaStonePix || 
-              totalMaquinaAtualAluguel || totalOfertaStoneAluguel ||
-              maquinaAtualOutros1 || ofertaStoneOutros1 ||
-              maquinaAtualOutros2 || ofertaStoneOutros2)) {
+    function formatNumberInput(input) {
+        if (input.name === 'quant_maquinas' || input.name === 'parcelas') {
             
-            resultadoContent.innerHTML = `
-                <div class="result-message">
-                    Por favor, insira algum valor para que seja feita a comparação.
-                </div>
-            `;
-            return;
-        }
-
-        if (maquinaAtualOutros1 || ofertaStoneOutros1) {
-            const diferencaOutros1 = (maquinaAtualOutros1 - ofertaStoneOutros1).toFixed(2);
-            const isEconomiaOutros1 = diferencaOutros1 > 0;
-            const outros1Label = document.querySelector(`#${maquinaAtualTab} .editable-label[data-default-name="Outros 1"]`).textContent;
-
-            resultHTML = `
-                <div class="result-item">
-                    <div class="result-title">${outros1Label}:</div>
-                    <div class="result-detail">Valor atual: R$ ${maquinaAtualOutros1.toFixed(2)}</div>
-                    <div class="result-detail">Valor oferta: R$ ${ofertaStoneOutros1.toFixed(2)}</div>
-                    <div class="result-detail ${isEconomiaOutros1 ? 'economia' : 'investimento'}">
-                        ${isEconomiaOutros1 ? 'Economia' : 'Investimento'}: R$ ${Math.abs(diferencaOutros1).toFixed(2)}
-                    </div>
-                </div>
-            `;
-        }
-
-        if (maquinaAtualOutros2 || ofertaStoneOutros2) {
-            const diferencaOutros2 = (maquinaAtualOutros2 - ofertaStoneOutros2).toFixed(2);
-            const isEconomiaOutros2 = diferencaOutros2 > 0;
-            const outros2Label = document.querySelector(`#${maquinaAtualTab} .editable-label[data-default-name="Outros 2"]`).textContent;
-
-            resultHTML = `
-                <div class="result-item">
-                    <div class="result-title">${outros2Label}:</div>
-                    <div class="result-detail">Valor atual: R$ ${maquinaAtualOutros2.toFixed(2)}</div>
-                    <div class="result-detail">Valor oferta: R$ ${ofertaStoneOutros2.toFixed(2)}</div>
-                    <div class="result-detail ${isEconomiaOutros2 ? 'economia' : 'investimento'}">
-                        ${isEconomiaOutros2 ? 'Economia' : 'Investimento'}: R$ ${Math.abs(diferencaOutros2).toFixed(2)}
-                    </div>
-                </div>
-            ` + resultHTML;
-        }
-
-        if (maquinaAtualCredito7x12x || ofertaStoneCredito7x12x || tpvCredito7x12x) {
-            const diferencaCredito7x12x = (maquinaAtualCredito7x12x - ofertaStoneCredito7x12x).toFixed(2);
-            const valorMensalCredito7x12x = ((Math.abs(diferencaCredito7x12x) * tpvCredito7x12x) / 100).toFixed(2);
-            const isEconomiaCredito7x12x = diferencaCredito7x12x > 0;
-
-            if (maquinaAtualCredito7x12x || ofertaStoneCredito7x12x) {
-                resultHTML = `
-                    <div class="result-item">
-                        <div class="result-title">Crédito 7x a 12x:</div>
-                        <div class="result-detail">Diferença de Taxa: ${Math.abs(diferencaCredito7x12x)}%</div>
-                        ${tpvCredito7x12x ? `
-                            <div class="result-detail ${isEconomiaCredito7x12x ? 'economia' : 'investimento'}">
-                                ${isEconomiaCredito7x12x ? 'Economia' : 'Investimento'}: R$ ${valorMensalCredito7x12x}
-                            </div>
-                        ` : ''}
-                    </div>
-                ` + resultHTML;
-            }
-        }
-
-        if (maquinaAtualCredito2x6x || ofertaStoneCredito2x6x || tpvCredito2x6x) {
-            const diferencaCredito2x6x = (maquinaAtualCredito2x6x - ofertaStoneCredito2x6x).toFixed(2);
-            const valorMensalCredito2x6x = ((Math.abs(diferencaCredito2x6x) * tpvCredito2x6x) / 100).toFixed(2);
-            const isEconomiaCredito2x6x = diferencaCredito2x6x > 0;
-
-            if (maquinaAtualCredito2x6x || ofertaStoneCredito2x6x) {
-                resultHTML = `
-                    <div class="result-item">
-                        <div class="result-title">Crédito 2x a 6x:</div>
-                        <div class="result-detail">Diferença de Taxa: ${Math.abs(diferencaCredito2x6x)}%</div>
-                        ${tpvCredito2x6x ? `
-                            <div class="result-detail ${isEconomiaCredito2x6x ? 'economia' : 'investimento'}">
-                                ${isEconomiaCredito2x6x ? 'Economia' : 'Investimento'}: R$ ${valorMensalCredito2x6x}
-                            </div>
-                        ` : ''}
-                    </div>
-                ` + resultHTML;
-            }
-        }
-
-        if (totalMaquinaAtualAluguel || totalOfertaStoneAluguel || ofertaStoneAluguel) {
-            const isAdesaoActive = document.querySelector('input[name="adesao"]').checked;
-            
-            if (isAdesaoActive) {
-                const valorAdesao = ofertaStoneAluguel;
-                const numeroParcelas = ofertaStoneQuant || 12;
-                const valorParcelaAdesao = valorAdesao / numeroParcelas;
-                
-                const mesesEquivalentes = valorAdesao / totalMaquinaAtualAluguel;
-                
-                const economiaAno1 = (totalMaquinaAtualAluguel * 12) - valorAdesao;
-                const economiaAno2 = (totalMaquinaAtualAluguel * 24) - valorAdesao;
-                
-                resultHTML = `
-                    <div class="result-item">
-                        <div class="result-title">Adesão vs Aluguel:</div>
-                        <div class="result-detail">Valor da adesão: R$ ${valorAdesao.toFixed(2)} 
-                            (${numeroParcelas}x de R$ ${valorParcelaAdesao.toFixed(2)})</div>
-                        <div class="result-detail">Valor atual do aluguel mensal: R$ ${totalMaquinaAtualAluguel.toFixed(2)}</div>
-                        <div class="result-detail">O valor da adesão equivale a ${mesesEquivalentes.toFixed(1)} meses de aluguel</div>
-                        <div class="result-detail economia">Economia no primeiro ano: R$ ${economiaAno1.toFixed(2)}</div>
-                        <div class="result-detail economia">Economia no segundo ano: R$ ${economiaAno2.toFixed(2)}</div>
-                        <div class="result-detail" style="font-style: italic; margin-top: 10px;">
-                            Nota: A adesão é um pagamento único parcelado, enquanto o aluguel é uma despesa mensal permanente.
-                            Após o pagamento da adesão, não haverá mais custos mensais.
-                        </div>
-                    </div>
-                ` + resultHTML;
-            } else {
-                const diferencaAluguel = (totalMaquinaAtualAluguel - totalOfertaStoneAluguel).toFixed(2);
-                const isEconomiaAluguel = diferencaAluguel > 0;
-
-                resultHTML = `
-                    <div class="result-item">
-                        <div class="result-title">Aluguel:</div>
-                        ${isIpvActive ? 
-                            '<div class="result-detail">IPV ativo: Sem cobrança de aluguel na oferta Stone</div>' : 
-                            ''
-                        }
-                        <div class="result-detail">
-                            Valor atual: R$ ${totalMaquinaAtualAluguel.toFixed(2)} 
-                            (${maquinaAtualAluguel.toFixed(2)} × ${maquinaAtualQuant} ${maquinaAtualQuant > 1 ? 'máquinas' : 'máquina'})
-                        </div>
-                        <div class="result-detail">
-                            Valor oferta: R$ ${totalOfertaStoneAluguel.toFixed(2)}
-                            ${!isIpvActive ? ` (${ofertaStoneAluguel.toFixed(2)} × ${ofertaStoneQuant} ${ofertaStoneQuant > 1 ? 'máquinas' : 'máquina'})` : ''}
-                        </div>
-                        <div class="result-detail ${isEconomiaAluguel ? 'economia' : 'investimento'}">
-                            ${isEconomiaAluguel ? 'Economia' : 'Investimento'}: R$ ${Math.abs(diferencaAluguel).toFixed(2)}
-                        </div>
-                    </div>
-                ` + resultHTML;
-            }
-        }
-
-        if (maquinaAtualPix || ofertaStonePix || tpvPix) {
-            const diferencaPix = (maquinaAtualPix - ofertaStonePix).toFixed(2);
-            const valorMensalPix = ((Math.abs(diferencaPix) * tpvPix) / 100).toFixed(2);
-            const isEconomiaPix = diferencaPix > 0;
-
-            if (maquinaAtualPix || ofertaStonePix) {
-                resultHTML = `
-                    <div class="result-item">
-                        <div class="result-title">PIX:</div>
-                        <div class="result-detail">Diferença de Taxa: ${Math.abs(diferencaPix)}%</div>
-                        ${tpvPix ? `
-                            <div class="result-detail ${isEconomiaPix ? 'economia' : 'investimento'}">
-                                ${isEconomiaPix ? 'Economia' : 'Investimento'}: R$ ${valorMensalPix}
-                            </div>
-                        ` : ''}
-                    </div>
-                ` + resultHTML;
-            }
-        }
-
-        if (maquinaAtualCredito || ofertaStoneCredito || tpvCredito) {
-            const totalMaquinaAtual = maquinaAtualCredito + maquinaAtualAntecipacao;
-            const totalOfertaStone = ofertaStoneCredito + ofertaStoneAntecipacao;
-            const diferencaCredito = (totalMaquinaAtual - totalOfertaStone).toFixed(2);
-            const valorMensalCredito = ((Math.abs(diferencaCredito) * tpvCredito) / 100).toFixed(2);
-            const isEconomiaCredito = diferencaCredito > 0;
-
-            if (maquinaAtualCredito || ofertaStoneCredito) {
-                resultHTML = `
-                    <div class="result-item">
-                        <div class="result-title">${(maquinaAtualAntecipacao || ofertaStoneAntecipacao) ? 'Crédito + Antecipação:' : 'Crédito:'}</div>
-                        <div class="result-detail">Diferença de Taxa: ${Math.abs(diferencaCredito)}%</div>
-                        ${tpvCredito ? `
-                            <div class="result-detail ${isEconomiaCredito ? 'economia' : 'investimento'}">
-                                ${isEconomiaCredito ? 'Economia' : 'Investimento'}: R$ ${valorMensalCredito}
-                            </div>
-                        ` : ''}
-                    </div>
-                ` + resultHTML;
-            }
-        }
-
-        if (maquinaAtualDebito || ofertaStoneDebito || tpvDebito) {
-            const diferencialDebito = (maquinaAtualDebito - ofertaStoneDebito).toFixed(2);
-            const valorMensalDebito = ((Math.abs(diferencialDebito) * tpvDebito) / 100).toFixed(2);
-            const isEconomiaDebito = diferencialDebito > 0;
-
-            if (maquinaAtualDebito || ofertaStoneDebito) {
-                resultHTML = `
-                    <div class="result-item">
-                        <div class="result-title">Débito:</div>
-                        <div class="result-detail">Diferença de Taxa: ${Math.abs(diferencialDebito)}%</div>
-                        ${tpvDebito ? `
-                            <div class="result-detail ${isEconomiaDebito ? 'economia' : 'investimento'}">
-                                ${isEconomiaDebito ? 'Economia' : 'Investimento'}: R$ ${valorMensalDebito}
-                            </div>
-                        ` : ''}
-                    </div>
-                ` + resultHTML;
-            }
-        }
-
-        const parcelasGridVisible = document.querySelector('.parcelas-grid.visible') !== null;
-
-        if (parcelasGridVisible) {
-            for(let i = 1; i <= 18; i++) {
-                const maquinaAtualParcela = parseFloat(document.querySelector(`#${maquinaAtualTab} input[name="parcela_${i}x"]`).value) || 0;
-                const ofertaStoneParcela = parseFloat(document.querySelector(`#${ofertaStoneTab} input[name="parcela_${i}x"]`).value) || 0;
-                const tpvParcela = parseFloat(document.querySelector(`input[name="tpv_parcela_${i}x"]`).value) || 0;
-
-                if (maquinaAtualParcela || ofertaStoneParcela || tpvParcela) {
-                    const diferencaParcela = (maquinaAtualParcela - ofertaStoneParcela).toFixed(2);
-                    const valorMensalParcela = ((Math.abs(diferencaParcela) * tpvParcela) / 100).toFixed(2);
-                    const isEconomiaParcela = diferencaParcela > 0;
-
-                    if (maquinaAtualParcela || ofertaStoneParcela) {
-                        resultHTML = resultHTML + `
-                            <div class="result-item">
-                                <div class="result-title">Parcela ${i}x:</div>
-                                <div class="result-detail">Diferença de Taxa: ${Math.abs(diferencaParcela)}%</div>
-                                ${tpvParcela ? `
-                                    <div class="result-detail ${isEconomiaParcela ? 'economia' : 'investimento'}">
-                                        ${isEconomiaParcela ? 'Economia' : 'Investimento'}: R$ ${valorMensalParcela}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        `;
-                    }
-                }
-            }
-        }
-
-        if (resultHTML) {
-            let totalEconomiaMensal = 0;
-            let totalInvestimentoMensal = 0;
-            let economiaAdesaoAno1 = 0;
-            let economiaAdesaoAno2 = 0;
-            
-            const extractValue = (str) => {
-                const match = str.match(/R\$ ([\d,.]+)/);
-                return match ? parseFloat(match[1].replace(',', '.')) : 0;
-            };
-            
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = resultHTML;
-            
-            tempDiv.querySelectorAll('.result-item').forEach(item => {
-                const title = item.querySelector('.result-title')?.textContent;
-                
-                if (title?.includes('Adesão vs Aluguel')) {
-                    const economiaAno1Text = item.textContent.match(/Economia no primeiro ano: R\$ ([\d,.]+)/);
-                    const economiaAno2Text = item.textContent.match(/Economia no segundo ano: R\$ ([\d,.]+)/);
-                    
-                    if (economiaAno1Text) economiaAdesaoAno1 = parseFloat(economiaAno1Text[1].replace(',', '.'));
-                    if (economiaAno2Text) economiaAdesaoAno2 = parseFloat(economiaAno2Text[1].replace(',', '.'));
-                    return;
-                }
-
-                item.querySelectorAll('.result-detail').forEach(detail => {
-                    if (!detail.textContent.includes('ano')) {
-                        if (detail.classList.contains('economia')) {
-                            totalEconomiaMensal += extractValue(detail.textContent);
-                        } else if (detail.classList.contains('investimento')) {
-                            totalInvestimentoMensal += extractValue(detail.textContent);
-                        }
-                    }
-                });
-            });
-            
-            const resultadoMensalTotal = totalEconomiaMensal - totalInvestimentoMensal;
-            const resultadoAnual1 = (resultadoMensalTotal * 12) + economiaAdesaoAno1;
-            const resultadoAnual2 = (resultadoMensalTotal * 24) + economiaAdesaoAno2;
-            
-            resultHTML += `
-                <div class="result-item" style="border-top: 2px solid #eee; margin-top: 2rem; padding-top: 1rem;">
-                    <div class="result-title">Resultado Total:</div>
-                    <div class="result-detail">Total Economia Mensal: <span class="economia">R$ ${totalEconomiaMensal.toFixed(2)}</span></div>
-                    <div class="result-detail">Total Investimento Mensal: <span class="investimento">R$ ${totalInvestimentoMensal.toFixed(2)}</span></div>
-                    <div class="result-detail" style="font-weight: bold; margin-top: 1rem;">
-                        Resultado Mensal Total: 
-                        <span class="${resultadoMensalTotal >= 0 ? 'economia' : 'investimento'}">
-                            R$ ${Math.abs(resultadoMensalTotal).toFixed(2)}
-                            ${resultadoMensalTotal >= 0 ? ' (Economia)' : ' (Investimento)'}
-                        </span>
-                    </div>
-                    ${(resultadoAnual1 > 0 || resultadoAnual2 > 0) ? `
-                        <div class="result-detail ${resultadoAnual1 >= 0 ? 'economia' : 'investimento'}" style="margin-top: 0.5rem">
-                            ${resultadoAnual1 >= 0 ? 'Economia' : 'Investimento'} Total em 1 ano: R$ ${Math.abs(resultadoAnual1).toFixed(2)}
-                        </div>
-                        <div class="result-detail ${resultadoAnual2 >= 0 ? 'economia' : 'investimento'}">
-                            ${resultadoAnual2 >= 0 ? 'Economia' : 'Investimento'} Total em 2 anos: R$ ${Math.abs(resultadoAnual2).toFixed(2)}
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-        }
-
-        resultadoContent.innerHTML = resultHTML;
-    }
-});
-</script>
-</body></html>
