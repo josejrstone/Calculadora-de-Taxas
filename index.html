@@ -1,5 +1,6 @@
 <html><head><base href="." />
 <meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Oferta Stone - BETA</title>
 <style>
 :root {
@@ -1985,7 +1986,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 "📊 Com esse valor anual você pode investir em softwares de gestão empresarial",
                 "🎓 Com esse valor anual você pode investir em treinamentos presenciais ou workshops",
                 "📣 Com esse valor anual você pode investir em anúncios publicitários",
-"🔐 Com esse valor anual você pode investir em equipamentos de segurança"
+                "🔐 Com esse valor anual você pode investir em equipamentos de segurança"
             ];
             return suggestions[Math.floor(Math.random() * suggestions.length)];
         } else if (annualValue < 10000) {
@@ -2701,7 +2702,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60));
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
             
