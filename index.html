@@ -1457,6 +1457,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const antecipacao = document.getElementById('antecipacao').value;
                 const credito = document.getElementById('credito').value;
                 
+                // Initialize totalMonthlyDifference before the fieldsToCompare loop
+                let totalMonthlyDifference = 0;
+
                 // Calculate 1x if credito and antecipacao have values
                 if (credito && antecipacao) {
                     const creditoValue = parseFloat(credito.replace(/[^\d,]/g, '').replace(',', '.')) / 100;
@@ -1485,6 +1488,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const credito2x6x = document.getElementById('oferta_credito_2_6').value;
                 const credito7x12x = document.getElementById('oferta_credito_7_12').value;
                 const antecipacao = document.getElementById('oferta_antecipacao').value;
+
+                // Initialize totalMonthlyDifference before the fieldsToCompare loop
+                let totalMonthlyDifference = 0;
 
                 // Calculate 1x if credito and antecipacao have values
                 if (credito && antecipacao) {
@@ -1977,7 +1983,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 "📣 Com esse valor anual você pode investir em anúncios publicitários",
                 "🔐 Com esse valor anual você pode investir em equipamentos de segurança"
             ];
-            return suggestions[Math.floor(Math.random() * suggestions.length)];
+return suggestions[Math.floor(Math.random() * suggestions.length)];
         } else if (annualValue < 10000) {
             const suggestions = [
                 "📱 Com esse valor anual você pode investir no desenvolvimento de aplicativos móveis",
@@ -2167,12 +2173,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             const ofertaImpact = (tpvNumeric * ofertaNumeric) / 100;
                             const monthlyDifference = ofertaImpact - currentImpact;
 
-                            // Add to totalMonthlyDifference for percentage fields
+                            // Add this monthlyDifference to totalMonthlyDifference
                             totalMonthlyDifference += monthlyDifference;
 
                             resultHtml += `
                                     <tr>
-                                        <th>Economia Mensal</th>
+                                        <th>${monthlyDifference < 0 ? 'Economia Mensal' : 'Investimento Mensal'}</th>
                                     </tr>
                                     <tr>
                                         <td class="${monthlyDifference < 0 ? 'savings' : 'loss'}">
@@ -2252,23 +2258,24 @@ document.addEventListener('DOMContentLoaded', function() {
                                 const currentImpact = (tpvNumeric * currentNumeric) / 100;
                                 const ofertaImpact = (tpvNumeric * ofertaNumeric) / 100;
                                 const monthlyDifference = ofertaImpact - currentImpact;
-                                const monthlyLabel = monthlyDifference < 0 ? 'Economia Mensal' : 'Investimento Mensal';
+
+                                // Add this difference to the total
+                                totalMonthlyDifference += monthlyDifference;
 
                                 resultHtml += `
-                                        <tr>
-                                            <th>${monthlyLabel}</th>
-                                        </tr>
-                                        <tr>
-                                            <td class="${monthlyDifference < 0 ? 'savings' : 'loss'}">
-                                                R$ ${Math.abs(monthlyDifference).toFixed(2).replace('.', ',')}
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <th>${monthlyDifference < 0 ? 'Economia Mensal' : 'Investimento Mensal'}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="${monthlyDifference < 0 ? 'savings' : 'loss'}">
+                                            R$ ${Math.abs(monthlyDifference).toFixed(2).replace('.', ',')}
+                                        </td>
+                                    </tr>
                                 `;
                                 
-                                // Add to totals and include in monthly difference calculation
+                                // Add to totals
                                 totalCurrentImpact += currentImpact;
                                 totalOfertaImpact += ofertaImpact;
-                                totalMonthlyDifference += monthlyDifference; // Add this line to include in total
                             }
 
                             resultHtml += `
