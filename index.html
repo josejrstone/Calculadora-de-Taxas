@@ -1498,14 +1498,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById(`${containerId}_1x`).value = `% ${(cetResult1x * 100).toFixed(2)}`.replace('.', ',');
                 }
 
-                // Rest of the existing calculation code...
-            }
-            // Leave the rest of the function unchanged for Oferta Stone calculations
-            else if (buttonId === 'ofertaCetButton') {
-                const credito2x6x = document.getElementById('oferta_credito_2_6').value;
-                const credito7x12x = document.getElementById('oferta_credito_7_12').value;
-                const antecipacao = document.getElementById('oferta_antecipacao').value;
-                
                 // Only calculate if both values are present
                 if ((credito2x6x && antecipacao) || (credito7x12x && antecipacao)) {
                     // Convert percentage strings to numbers
@@ -1513,9 +1505,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     const credito7x12xValue = parseFloat(credito7x12x.replace(/[^\d,]/g, '').replace(',', '.')) / 100;
                     const antecipacaoValue = parseFloat(antecipacao.replace(/[^\d,]/g, '').replace(',', '.')) / 100;
                     
-                    // Calculate CET for 2x-6x
+                    // Calculate 2x-6x
                     if (credito2x6x) {
-                        // Calculate each installment for 2x-6x
+                        // Calculate each installment for 2x-6x using the new formulas
                         const cetResult2x = 1 - (((100 * (1 - credito2x6xValue)) * (1 - (antecipacaoValue * 1.5))) / 100);
                         const cetResult3x = 1 - (((100 * (1 - credito2x6xValue)) * (1 - (antecipacaoValue * 2))) / 100);
                         const cetResult4x = 1 - (((100 * (1 - credito2x6xValue)) * (1 - (antecipacaoValue * 2.5))) / 100);
@@ -1530,12 +1522,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.getElementById(`${containerId}_6x`).value = `% ${(cetResult6x * 100).toFixed(2)}`.replace('.', ',');
                     }
 
-                    // Calculate 7x-12x only if credito7x12x has a value and is not zero
-                    if (credito7x12x && parseFloat(credito7x12x.replace(/[^\d,]/g, '').replace(',', '.')) > 0) {
-                        // Convert percentage strings to numbers
-                        const credito7x12xValue = parseFloat(credito7x12x.replace(/[^\d,]/g, '').replace(',', '.')) / 100;
-                        
-                        // Calculate each installment for 7x-12x
+                    // Calculate 7x-12x if credito7x12x has a value
+                    if (credito7x12x) {
+                        // Calculate each installment for 7x-12x using the new formulas
                         const cetResult7x = 1 - (((100 * (1 - credito7x12xValue)) * (1 - (antecipacaoValue * 4))) / 100);
                         const cetResult8x = 1 - (((100 * (1 - credito7x12xValue)) * (1 - (antecipacaoValue * 4.5))) / 100);
                         const cetResult9x = 1 - (((100 * (1 - credito7x12xValue)) * (1 - (antecipacaoValue * 5))) / 100);
